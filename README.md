@@ -1,6 +1,8 @@
 disto-hot-loader
 ---
 
+(alpha)
+
 hot load your [disto](https://github.com/threepointone/disto) stores
 
 (and soon, actions!)
@@ -16,3 +18,4 @@ caveats/bugs
 
 - don't name any of your own functions `register`.
 - adding/removing/swapping stores might need a reload.
+- source maps are a bit wonky
