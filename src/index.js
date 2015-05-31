@@ -1,3 +1,4 @@
+// large chunks taken from https://github.com/gaearon/react-hot-loader
 import path from 'path';
 import SourceMap from 'source-map';
 let {SourceNode, SourceMapConsumer} = SourceMap;
