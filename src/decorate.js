@@ -23,7 +23,7 @@ export function register(fn, m){
 
   if(!m.hot.sAttached){
     m.hot.sAttached = true;
-    m.hot.dispose(data => {
+    m.hot.addDisposeHandler(data => {
       Object.assign(data, {
         dhl: {
           ...data.dhl,
@@ -52,29 +52,26 @@ export function act(fn, m){
   let couched = (disp, map, prefix) => {
     return (i => {
       dhl.maps[i] = map;
-      if(dhl.acts[i]){
-        return dhl.acts[i];
-      }
-      else {
-        const acts = dhl.acts[i] = fn(disp, Object.keys(map).reduce((o, key)=>{
+      if(!dhl.acts[i]){
+        dhl.acts[i] = fn(disp, Object.keys(map).reduce((o, key)=>{
           return Object.assign(o, {[key]: function(...args){
             if(dhl.maps[i][key]){
               return dhl.maps[i][key](...args);
             }
           }});
         }, {}), prefix);
-        m.hot.aIndex++;
-        return acts;
       }
 
-    })(m.hot.aIndex);
+      m.hot.aIndex++;
+      return dhl.acts[i];
 
+    })(m.hot.aIndex);
 
   };
 
   if(!m.hot.aAttached){
     m.hot.aAttached = true;
-    m.hot.dispose(data => {
+    m.hot.addDisposeHandler(data => {
       Object.assign(data, {
         dhl: {
           ...data.dhl,
