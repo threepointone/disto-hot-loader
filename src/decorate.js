@@ -9,7 +9,7 @@ export function register(fn, m){
 
   dhl.reduceFns = dhl.reduceFns || [];
   dhl.stores = dhl.stores || [];
-  let couched = (i => (initial, reduce, compare) => {
+  let couched = (initial, reduce, compare) => (i => {
     dhl.reduceFns[i] = reduce;
     if(!dhl.stores[i]){
       dhl.stores[i] = fn(initial, function(){
@@ -48,24 +48,28 @@ export function act(fn, m){
 
   dhl.acts = dhl.acts || [];
   dhl.maps = dhl.maps || [];
-  let couched = (i => (disp, map, prefix) => {
-    dhl.maps[i] = map;
-    if(dhl.acts[i]){
-      return dhl.acts[i];
-    }
-    else {
-      const acts = dhl.acts[i] = fn(disp, Object.keys(map).reduce((o, key)=>{
-        return Object.assign(o, {[key]: function(...args){
-          if(dhl.maps[i][key]){
-            return dhl.maps[i][key](...args);
-          }
-        }});
-      }, {}), prefix);
-      m.hot.aIndex++;
-      return acts;
-    }
+  let couched = (disp, map, prefix) => {
+    return (i => {
+      dhl.maps[i] = map;
+      if(dhl.acts[i]){
+        return dhl.acts[i];
+      }
+      else {
+        const acts = dhl.acts[i] = fn(disp, Object.keys(map).reduce((o, key)=>{
+          return Object.assign(o, {[key]: function(...args){
+            if(dhl.maps[i][key]){
+              return dhl.maps[i][key](...args);
+            }
+          }});
+        }, {}), prefix);
+        m.hot.aIndex++;
+        return acts;
+      }
 
-  })(m.hot.aIndex);
+    })(m.hot.aIndex);
+
+
+  };
 
   if(!m.hot.aAttached){
     m.hot.aAttached = true;
