@@ -26,6 +26,7 @@ export function register(fn, m){
     m.hot.dispose(data => {
       Object.assign(data, {
         dhl: {
+          ...data.dhl,
           reduceFns: dhl.reduceFns,
           stores: dhl.stores
         }
@@ -76,6 +77,7 @@ export function act(fn, m){
     m.hot.dispose(data => {
       Object.assign(data, {
         dhl: {
+          ...data.dhl,
           acts: dhl.acts,
           maps: dhl.maps
         }
