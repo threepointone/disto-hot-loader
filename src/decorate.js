@@ -9,7 +9,7 @@ export function register(fn, m){
 
   dhl.reduceFns = dhl.reduceFns || [];
   dhl.stores = dhl.stores || [];
-  (i => (initial, reduce, compare) => {
+  let couched = (i => (initial, reduce, compare) => {
     dhl.sIndex++;
     dhl.reduceFns[i] = reduce;
     if(!dhl.stores[i]){
@@ -34,6 +34,8 @@ export function register(fn, m){
     });
   }
 
+  return couched;
+
 }
 
 export function act(fn, m){
@@ -47,7 +49,7 @@ export function act(fn, m){
 
   dhl.acts = dhl.acts || [];
   dhl.maps = dhl.maps || [];
-  (i => (disp, map, prefix) => {
+  let couched = (i => (disp, map, prefix) => {
     dhl.maps[i] = map;
     if(dhl.acts[i]){
       return dhl.acts[i];
@@ -77,4 +79,5 @@ export function act(fn, m){
       });
     });
   }
+  return couched;
 }
