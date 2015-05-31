@@ -45,12 +45,11 @@ export default function(source, map){
     __couch__ = function (fn){
       return (function(i){
         return function (initial, reduce, compare){
+          __data__.reduceFns[i] = reduce;
           if(__data__.stores[i]){
-            __data__.reduceFns[i] = reduce;
             return __data__.stores[i];
           }
           else{
-            __data__.reduceFns[i] = reduce;
             const store = __data__.stores[i] = fn(initial, function(){
               return __data__.reduceFns[i].apply(null, arguments);
             }, compare);
