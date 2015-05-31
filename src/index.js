@@ -28,45 +28,6 @@ export default function(source, map){
 
   // put your stuff here
 
-
-  prependText = `
-  var __couch__ = function(x){ return x; };
-  if(module.hot){
-    module.hot.accept(function(err){
-      if (err) {
-        console.error("disto.hot.error: " + ${JSON.stringify(filename)} + err.message);
-      }
-    });
-
-    var __index__ = 0;
-    var __data__ = module.hot.data || {};
-    __data__.reduceFns = __data__.reduceFns || [];
-    __data__.stores = __data__.stores || [];
-    __couch__ = function (fn){
-      return (function(i){
-        return function (initial, reduce, compare){
-          __data__.reduceFns[i] = reduce;
-          if(__data__.stores[i]){
-            return __data__.stores[i];
-          }
-          else{
-            const store = __data__.stores[i] = fn(initial, function(){
-              return __data__.reduceFns[i].apply(null, arguments);
-            }, compare);
-          }
-
-          __index__++;
-          return store;
-        };
-      })(__index__);
-    };
-    module.hot.dispose(function(data){
-      data.reduceFns = __data__.reduceFns;
-      data.stores = __data__.stores;
-    });
-  }
-  `;
-
   source = transform(source);
 
  if (this.sourceMap === false) {
