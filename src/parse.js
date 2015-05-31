@@ -13,12 +13,12 @@ export default function transform(src){
             ...node,
             callee: {
               ...node.callee,
-              name: 'require("disto-hot-loader/lib/decorate").register(register, module)'
+              name: 'require("../../disto-hot-loader/lib/decorate").register(register, module)'
             }
           };
         }
         if (node.type === 'CallExpression' && (node.callee.property || {}).name === 'register'){
-          return estemplate('require("disto-hot-loader/lib/decorate").register (<%= callee %>, module)((%= arguments %))', node);
+          return estemplate('require("../../disto-hot-loader/lib/decorate").register (<%= callee %>, module)((%= arguments %))', node);
         }
     }
   }));

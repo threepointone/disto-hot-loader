@@ -5,26 +5,25 @@ export function register(fn, m){
   m.hot.data = m.hot.data || {};
   m.hot.data.dhl = m.hot.data.dhl || {};
   let dhl = m.hot.data.dhl;
-  dhl.sIndex = dhl.sIndex || 0;
+  m.hot.sIndex = m.hot.sIndex || 0;
 
   dhl.reduceFns = dhl.reduceFns || [];
   dhl.stores = dhl.stores || [];
   let couched = (i => (initial, reduce, compare) => {
-    dhl.sIndex++;
     dhl.reduceFns[i] = reduce;
     if(!dhl.stores[i]){
       dhl.stores[i] = fn(initial, function(){
         return dhl.reduceFns[i].apply(null, arguments);
       }, compare);
     }
-
+    m.hot.sIndex++;
     return dhl.stores[i];
 
-  })(dhl.sIndex);
+  })(m.hot.sIndex);
 
-  if(!dhl.sAttached){
-    dhl.sAttached = true;
-    module.hot.dispose(data => {
+  if(!m.hot.sAttached){
+    m.hot.sAttached = true;
+    m.hot.dispose(data => {
       Object.assign(data, {
         dhl: {
           reduceFns: dhl.reduceFns,
@@ -45,7 +44,7 @@ export function act(fn, m){
   m.hot.data = m.hot.data || {};
   m.hot.data.dhl = m.hot.data.dhl || {};
   let dhl = m.hot.data.dhl;
-  dhl.aIndex = dhl.aIndex || 0;
+  m.hot.aIndex = m.hot.aIndex || 0;
 
   dhl.acts = dhl.acts || [];
   dhl.maps = dhl.maps || [];
@@ -62,15 +61,15 @@ export function act(fn, m){
           }
         }});
       }, {}), prefix);
-      dhl.aIndex++;
+      m.hot.aIndex++;
       return acts;
     }
 
-  })(dhl.aIndex);
+  })(m.hot.aIndex);
 
-  if(!dhl.aAattached){
-    dhl.Attached = true;
-    module.hot.dispose(data => {
+  if(!m.hot.aAttached){
+    m.hot.aAttached = true;
+    m.hot.dispose(data => {
       Object.assign(data, {
         dhl: {
           acts: dhl.acts,
