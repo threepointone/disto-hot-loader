@@ -33,9 +33,7 @@ export function register(fn, m){
       });
     });
   }
-
   return couched;
-
 }
 
 export function act(fn, m){
