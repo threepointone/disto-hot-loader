@@ -2,7 +2,9 @@ export function register(fn, m){
   if(!m.hot){
     return fn;
   }
-  var {dhl} = m.hot.data = m.hot.data || {};
+  m.hot.data = m.hot.data || {};
+  m.hot.data.dhl = m.hot.data.dhl || {};
+  let dhl = m.hot.data.dhl;
   dhl.sIndex = dhl.sIndex || 0;
 
   dhl.reduceFns = dhl.reduceFns || [];
@@ -38,7 +40,9 @@ export function act(fn, m){
   if(!m.hot){
     return fn;
   }
-  var {dhl} = m.hot.data = m.hot.data || {};
+  m.hot.data = m.hot.data || {};
+  m.hot.data.dhl = m.hot.data.dhl || {};
+  let dhl = m.hot.data.dhl;
   dhl.aIndex = dhl.aIndex || 0;
 
   dhl.acts = dhl.acts || [];
