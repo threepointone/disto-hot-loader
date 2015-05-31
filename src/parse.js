@@ -26,7 +26,7 @@ export default function transform(src){
           ...node,
           callee: {
             ...node.callee,
-            name: 'require("disto-hot-loader/lib/decorate").act(register, module)'
+            name: 'require("disto-hot-loader/lib/decorate").act(act, module)'
           }
         };
       }
