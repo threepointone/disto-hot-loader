@@ -2,6 +2,10 @@ export function register(fn, m){
   if(!m.hot){
     return fn;
   }
+  if(!fn.isdis){
+    console.warn('disto.hot: possible false match?');
+    return fn;
+  }
   m.hot.data = m.hot.data || {};
   m.hot.data.dhl = m.hot.data.dhl || {};
   let dhl = m.hot.data.dhl;
@@ -38,6 +42,10 @@ export function register(fn, m){
 
 export function act(fn, m){
   if(!m.hot){
+    return fn;
+  }
+  if(!fn.isdis){
+    console.warn('disto.hot: possible false match?');
     return fn;
   }
   m.hot.data = m.hot.data || {};
