@@ -14,7 +14,7 @@ like so - `loaders: ['react-hot', 'disto-hot', 'babel-loader']`
 bugs
 ---
 
-- don't name any of your own functions `register` or `act` (or rename them before making the call - [example](https://github.com/threepointone/disto-example/blob/master/_rest/record.js#L40) 
+- don't name any of your own functions `register` or `act` (or rename them before making the call - [example](https://github.com/threepointone/disto-example/blob/master/_rest/record.js#L40)) 
 - adding/removing/swapping stores might need a reload.
 - source maps are a bit wonky
 - instead of `import {Dis, act} from 'disto';`, need to do `let disto = require('disto'); let {Dis, act} = disto;`
