@@ -18,4 +18,4 @@ bugs
 - don't name any of your own functions `register` or `act` (or rename them before making the call)
 - adding/removing/swapping stores *might* need a reload.
 - source maps are a bit wonky
-
+- needs tests (how does one test a hot-loader?)
