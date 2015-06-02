@@ -4,7 +4,8 @@
   "description": "webpack loader to hotload disto stores and actions",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "make build"
   },
   "keywords": [
     "flux",
