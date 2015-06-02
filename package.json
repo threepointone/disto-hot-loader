@@ -1,6 +1,6 @@
 {
   "name": "disto-hot-loader",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "webpack loader to hotload disto stores and actions",
   "main": "index.js",
   "scripts": {
