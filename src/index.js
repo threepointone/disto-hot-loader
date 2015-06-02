@@ -1,11 +1,55 @@
 // large chunks taken from https://github.com/gaearon/react-hot-loader
 import path from 'path';
-import SourceMap from 'source-map';
-let {SourceNode, SourceMapConsumer} = SourceMap;
+import {SourceNode, SourceMapConsumer, SourceMapGenerator} from 'source-map';
 
-import transform from './parse';
+import * as acorn from 'acorn';
+import estraverse from 'estraverse';
+import escodegen from 'escodegen';
+import estemplate from 'estemplate';
 
-import makeIdentitySourceMap from './makeIdentitySourceMap';
+
+export default function transform(src){
+  return escodegen.generate(estraverse.replace(acorn.parse(src), {
+    leave: function (node, parent) {
+      if (node.type === 'CallExpression' && node.callee.name === 'register'){
+        return estemplate('require("disto-hot-loader/lib/decorate").register(register, module)((%= arguments %))', node);
+      }
+      if (node.type === 'CallExpression' && (node.callee.property || {}).name === 'register'){
+        return estemplate('require("disto-hot-loader/lib/decorate").register(<%= callee %>, module)((%= arguments %))', node);
+      }
+
+      if (node.type === 'CallExpression' && node.callee.name === 'act'){
+        return estemplate('require("disto-hot-loader/lib/decorate").act(act, module)((%= arguments %))', node);
+      }
+      if (node.type === 'CallExpression' && (node.callee.property || {}).name === 'act'){
+        return estemplate('require("disto-hot-loader/lib/decorate").act(<%= callee %>, module)((%= arguments %))', node);
+      }
+    }
+  }));
+}
+
+
+function makeIdentitySourceMap(content, resourcePath) {
+  var map = new SourceMapGenerator();
+  map.setSourceContent(resourcePath, content);
+
+  content.split('\n').map(function (line, index) {
+    map.addMapping({
+      source: resourcePath,
+      original: {
+        line: index + 1,
+        column: 0
+      },
+      generated: {
+        line: index + 1,
+        column: 0
+      }
+    });
+  });
+
+  return map.toJSON();
+}
+
 
 export default function(source, map){
   if (this.cacheable) {
